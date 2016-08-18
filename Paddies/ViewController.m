@@ -21,6 +21,8 @@
     NSTimer *timer;
     
     UIAlertController *alertCntrllr;
+    
+    SystemSoundID sounds[3];
 }
 
 @property (weak, nonatomic) IBOutlet UIView *viewPaddle1;
@@ -38,11 +40,40 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self initSounds];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self newGame];
+}
+
+
+#define SOUND_WALL 0
+#define SOUND_PADDLE 1
+#define SOUND_SCORE 2
+// загружаем звуковой эффект в индекс звукового массива
+- (void)loadSound:(NSString *)name slot:(int)slot {
+    if (sounds[slot] != 0) {
+        return;
+    }
+    
+    // создаем имя пути к звуковому файлу
+    NSString *sndPath = [[NSBundle mainBundle]pathForResource:name ofType:@"wav" inDirectory:@"/"];
+    
+    // создаем системный ID звука в нашей звуковой ячейке (слоте)
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef) [NSURL fileURLWithPath:sndPath], &sounds[slot]);
+}
+
+- (void)initSounds {
+    [self loadSound:@"wall" slot:SOUND_WALL];
+    [self loadSound:@"paddle" slot:SOUND_PADDLE];
+    [self loadSound:@"score" slot:SOUND_SCORE];
+}
+
+- (void)playSound:(int)slot {
+    AudioServicesPlaySystemSound(sounds[slot]);
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -128,19 +159,34 @@
     _viewPuck.center = CGPointMake(_viewPuck.center.x + dx*speed, _viewPuck.center.y + dy*speed);
     
     // проверяем, не ударился ли мяч о левую или правую стенку
-    [self checkPuckCollision:CGRectMake(-10.0, 0, 20.0, self.view.bounds.size.height) dirX:fabs(dx) dirY:0];
-    [self checkPuckCollision:CGRectMake(self.view.bounds.size.width-10.0, 0, 20.0, self.view.bounds.size.height) dirX:-fabs(dx) dirY:0];
+    if ([self checkPuckCollision:CGRectMake(-10.0, 0, 20.0, self.view.bounds.size.height) dirX:fabs(dx) dirY:0]) {
+        // воспроизводим звук удара о стену
+        [self playSound:SOUND_WALL];
+    }
+    if ([self checkPuckCollision:CGRectMake(self.view.bounds.size.width-10.0, 0, 20.0, self.view.bounds.size.height) dirX:-fabs(dx) dirY:0]) {
+        // воспроизводим звук удара о стену
+        [self playSound:SOUND_WALL];
+    }
 
     // проверяем, не ударился ли мяч о ракетку одного из игроков
     if ([self checkPuckCollision:_viewPaddle1.frame dirX:(_viewPuck.center.x-_viewPaddle1.center.x)/32.0 dirY:1]) {
+        // воспроизводим звук соударения с ракеткой
+        // и увеличиваем скорость мячика
         [self increaseSpeed];
+        [self playSound:SOUND_PADDLE];
     }
     if ([self checkPuckCollision:_viewPaddle2.frame dirX:(_viewPuck.center.x-_viewPaddle2.center.x)/32.0 dirY:-1]) {
+        // воспроизводим звук соударения с ракеткой
+        // и увеличиваем скорость мячика
         [self increaseSpeed];
+        [self playSound:SOUND_PADDLE];
     }
     
     // проверяем не забит ли мяч
-    [self checkGoal];
+    if ([self checkGoal]) {
+        // воспроизводим звук начисления очка
+        [self playSound:SOUND_SCORE];
+    }
 }
 
 - (void)start {
