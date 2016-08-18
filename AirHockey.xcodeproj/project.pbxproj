@@ -7,33 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		747A2C511D48B3B400C4B29F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 747A2C501D48B3B400C4B29F /* main.m */; };
-		747A2C541D48B3B400C4B29F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 747A2C531D48B3B400C4B29F /* AppDelegate.m */; };
-		747A2C571D48B3B400C4B29F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 747A2C561D48B3B400C4B29F /* ViewController.m */; };
-		747A2C5A1D48B3B400C4B29F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 747A2C581D48B3B400C4B29F /* Main.storyboard */; };
-		747A2C5C1D48B3B400C4B29F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 747A2C5B1D48B3B400C4B29F /* Assets.xcassets */; };
-		747A2C5F1D48B3B400C4B29F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 747A2C5D1D48B3B400C4B29F /* LaunchScreen.storyboard */; };
-		74DA97431D65802E00AE01C4 /* paddle.wav in Resources */ = {isa = PBXBuildFile; fileRef = 74DA97401D65802E00AE01C4 /* paddle.wav */; };
-		74DA97441D65802E00AE01C4 /* score.wav in Resources */ = {isa = PBXBuildFile; fileRef = 74DA97411D65802E00AE01C4 /* score.wav */; };
-		74DA97451D65802E00AE01C4 /* wall.wav in Resources */ = {isa = PBXBuildFile; fileRef = 74DA97421D65802E00AE01C4 /* wall.wav */; };
 		74DA97471D65804F00AE01C4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74DA97461D65804F00AE01C4 /* AudioToolbox.framework */; };
+		74DA97581D65C15E00AE01C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74DA974A1D65C15E00AE01C4 /* AppDelegate.m */; };
+		74DA97591D65C15E00AE01C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74DA974B1D65C15E00AE01C4 /* Assets.xcassets */; };
+		74DA975A1D65C15E00AE01C4 /* paddle.wav in Resources */ = {isa = PBXBuildFile; fileRef = 74DA974D1D65C15E00AE01C4 /* paddle.wav */; };
+		74DA975B1D65C15E00AE01C4 /* score.wav in Resources */ = {isa = PBXBuildFile; fileRef = 74DA974E1D65C15E00AE01C4 /* score.wav */; };
+		74DA975C1D65C15E00AE01C4 /* wall.wav in Resources */ = {isa = PBXBuildFile; fileRef = 74DA974F1D65C15E00AE01C4 /* wall.wav */; };
+		74DA975D1D65C15E00AE01C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74DA97501D65C15E00AE01C4 /* LaunchScreen.storyboard */; };
+		74DA975E1D65C15E00AE01C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74DA97521D65C15E00AE01C4 /* Main.storyboard */; };
+		74DA975F1D65C15E00AE01C4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74DA97541D65C15E00AE01C4 /* Info.plist */; };
+		74DA97601D65C15E00AE01C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74DA97551D65C15E00AE01C4 /* main.m */; };
+		74DA97611D65C15E00AE01C4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74DA97571D65C15E00AE01C4 /* ViewController.m */; };
+		74DA97641D65D57000AE01C4 /* Paddle.m in Sources */ = {isa = PBXBuildFile; fileRef = 74DA97631D65D57000AE01C4 /* Paddle.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		747A2C4C1D48B3B400C4B29F /* Paddies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paddies.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		747A2C501D48B3B400C4B29F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		747A2C521D48B3B400C4B29F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		747A2C531D48B3B400C4B29F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		747A2C551D48B3B400C4B29F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		747A2C561D48B3B400C4B29F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		747A2C591D48B3B400C4B29F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		747A2C5B1D48B3B400C4B29F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		747A2C5E1D48B3B400C4B29F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		747A2C601D48B3B400C4B29F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		74DA97401D65802E00AE01C4 /* paddle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = paddle.wav; sourceTree = "<group>"; };
-		74DA97411D65802E00AE01C4 /* score.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = score.wav; sourceTree = "<group>"; };
-		74DA97421D65802E00AE01C4 /* wall.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = wall.wav; sourceTree = "<group>"; };
+		747A2C4C1D48B3B400C4B29F /* AirHockey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirHockey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74DA97461D65804F00AE01C4 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		74DA97491D65C15E00AE01C4 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		74DA974A1D65C15E00AE01C4 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		74DA974B1D65C15E00AE01C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		74DA974D1D65C15E00AE01C4 /* paddle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = paddle.wav; sourceTree = "<group>"; };
+		74DA974E1D65C15E00AE01C4 /* score.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = score.wav; sourceTree = "<group>"; };
+		74DA974F1D65C15E00AE01C4 /* wall.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = wall.wav; sourceTree = "<group>"; };
+		74DA97511D65C15E00AE01C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		74DA97531D65C15E00AE01C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		74DA97541D65C15E00AE01C4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		74DA97551D65C15E00AE01C4 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		74DA97561D65C15E00AE01C4 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		74DA97571D65C15E00AE01C4 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		74DA97621D65D57000AE01C4 /* Paddle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Paddle.h; sourceTree = "<group>"; };
+		74DA97631D65D57000AE01C4 /* Paddle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Paddle.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				74DA97461D65804F00AE01C4 /* AudioToolbox.framework */,
-				747A2C4E1D48B3B400C4B29F /* Paddies */,
+				74DA97481D65C15E00AE01C4 /* AirHockey */,
 				747A2C4D1D48B3B400C4B29F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,42 +64,36 @@
 		747A2C4D1D48B3B400C4B29F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				747A2C4C1D48B3B400C4B29F /* Paddies.app */,
+				747A2C4C1D48B3B400C4B29F /* AirHockey.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		747A2C4E1D48B3B400C4B29F /* Paddies */ = {
+		74DA97481D65C15E00AE01C4 /* AirHockey */ = {
 			isa = PBXGroup;
 			children = (
-				74DA973F1D65802000AE01C4 /* Audio */,
-				747A2C521D48B3B400C4B29F /* AppDelegate.h */,
-				747A2C531D48B3B400C4B29F /* AppDelegate.m */,
-				747A2C551D48B3B400C4B29F /* ViewController.h */,
-				747A2C561D48B3B400C4B29F /* ViewController.m */,
-				747A2C581D48B3B400C4B29F /* Main.storyboard */,
-				747A2C5B1D48B3B400C4B29F /* Assets.xcassets */,
-				747A2C5D1D48B3B400C4B29F /* LaunchScreen.storyboard */,
-				747A2C601D48B3B400C4B29F /* Info.plist */,
-				747A2C4F1D48B3B400C4B29F /* Supporting Files */,
+				74DA97491D65C15E00AE01C4 /* AppDelegate.h */,
+				74DA974A1D65C15E00AE01C4 /* AppDelegate.m */,
+				74DA974B1D65C15E00AE01C4 /* Assets.xcassets */,
+				74DA974C1D65C15E00AE01C4 /* Audio */,
+				74DA97501D65C15E00AE01C4 /* LaunchScreen.storyboard */,
+				74DA97521D65C15E00AE01C4 /* Main.storyboard */,
+				74DA97541D65C15E00AE01C4 /* Info.plist */,
+				74DA97551D65C15E00AE01C4 /* main.m */,
+				74DA97561D65C15E00AE01C4 /* ViewController.h */,
+				74DA97571D65C15E00AE01C4 /* ViewController.m */,
+				74DA97621D65D57000AE01C4 /* Paddle.h */,
+				74DA97631D65D57000AE01C4 /* Paddle.m */,
 			);
-			path = Paddies;
+			path = AirHockey;
 			sourceTree = "<group>";
 		};
-		747A2C4F1D48B3B400C4B29F /* Supporting Files */ = {
+		74DA974C1D65C15E00AE01C4 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				747A2C501D48B3B400C4B29F /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		74DA973F1D65802000AE01C4 /* Audio */ = {
-			isa = PBXGroup;
-			children = (
-				74DA97401D65802E00AE01C4 /* paddle.wav */,
-				74DA97411D65802E00AE01C4 /* score.wav */,
-				74DA97421D65802E00AE01C4 /* wall.wav */,
+				74DA974D1D65C15E00AE01C4 /* paddle.wav */,
+				74DA974E1D65C15E00AE01C4 /* score.wav */,
+				74DA974F1D65C15E00AE01C4 /* wall.wav */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -103,9 +101,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		747A2C4B1D48B3B400C4B29F /* Paddies */ = {
+		747A2C4B1D48B3B400C4B29F /* AirHockey */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 747A2C631D48B3B400C4B29F /* Build configuration list for PBXNativeTarget "Paddies" */;
+			buildConfigurationList = 747A2C631D48B3B400C4B29F /* Build configuration list for PBXNativeTarget "AirHockey" */;
 			buildPhases = (
 				747A2C481D48B3B400C4B29F /* Sources */,
 				747A2C491D48B3B400C4B29F /* Frameworks */,
@@ -115,9 +113,9 @@
 			);
 			dependencies = (
 			);
-			name = Paddies;
+			name = AirHockey;
 			productName = Paddies;
-			productReference = 747A2C4C1D48B3B400C4B29F /* Paddies.app */;
+			productReference = 747A2C4C1D48B3B400C4B29F /* AirHockey.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -134,7 +132,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 747A2C471D48B3B400C4B29F /* Build configuration list for PBXProject "Paddies" */;
+			buildConfigurationList = 747A2C471D48B3B400C4B29F /* Build configuration list for PBXProject "AirHockey" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -147,7 +145,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				747A2C4B1D48B3B400C4B29F /* Paddies */,
+				747A2C4B1D48B3B400C4B29F /* AirHockey */,
 			);
 		};
 /* End PBXProject section */
@@ -157,12 +155,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74DA97451D65802E00AE01C4 /* wall.wav in Resources */,
-				74DA97431D65802E00AE01C4 /* paddle.wav in Resources */,
-				747A2C5F1D48B3B400C4B29F /* LaunchScreen.storyboard in Resources */,
-				747A2C5C1D48B3B400C4B29F /* Assets.xcassets in Resources */,
-				74DA97441D65802E00AE01C4 /* score.wav in Resources */,
-				747A2C5A1D48B3B400C4B29F /* Main.storyboard in Resources */,
+				74DA975C1D65C15E00AE01C4 /* wall.wav in Resources */,
+				74DA975A1D65C15E00AE01C4 /* paddle.wav in Resources */,
+				74DA975B1D65C15E00AE01C4 /* score.wav in Resources */,
+				74DA975E1D65C15E00AE01C4 /* Main.storyboard in Resources */,
+				74DA97591D65C15E00AE01C4 /* Assets.xcassets in Resources */,
+				74DA975D1D65C15E00AE01C4 /* LaunchScreen.storyboard in Resources */,
+				74DA975F1D65C15E00AE01C4 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,29 +172,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				747A2C571D48B3B400C4B29F /* ViewController.m in Sources */,
-				747A2C541D48B3B400C4B29F /* AppDelegate.m in Sources */,
-				747A2C511D48B3B400C4B29F /* main.m in Sources */,
+				74DA97611D65C15E00AE01C4 /* ViewController.m in Sources */,
+				74DA97641D65D57000AE01C4 /* Paddle.m in Sources */,
+				74DA97601D65C15E00AE01C4 /* main.m in Sources */,
+				74DA97581D65C15E00AE01C4 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		747A2C581D48B3B400C4B29F /* Main.storyboard */ = {
+		74DA97501D65C15E00AE01C4 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				747A2C591D48B3B400C4B29F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		747A2C5D1D48B3B400C4B29F /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				747A2C5E1D48B3B400C4B29F /* Base */,
+				74DA97511D65C15E00AE01C4 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		74DA97521D65C15E00AE01C4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				74DA97531D65C15E00AE01C4 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -287,10 +287,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = Paddies/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/AirHockey/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.idevmikey.paddies;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.appvilion.airhockey;
+				PRODUCT_NAME = AirHockey;
 			};
 			name = Debug;
 		};
@@ -298,17 +298,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = Paddies/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/AirHockey/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.idevmikey.paddies;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.appvilion.airhockey;
+				PRODUCT_NAME = AirHockey;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		747A2C471D48B3B400C4B29F /* Build configuration list for PBXProject "Paddies" */ = {
+		747A2C471D48B3B400C4B29F /* Build configuration list for PBXProject "AirHockey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				747A2C611D48B3B400C4B29F /* Debug */,
@@ -317,7 +317,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		747A2C631D48B3B400C4B29F /* Build configuration list for PBXNativeTarget "Paddies" */ = {
+		747A2C631D48B3B400C4B29F /* Build configuration list for PBXNativeTarget "AirHockey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				747A2C641D48B3B400C4B29F /* Debug */,

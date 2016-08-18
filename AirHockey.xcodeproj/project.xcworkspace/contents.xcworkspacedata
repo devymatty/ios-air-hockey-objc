@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Paddies.xcodeproj">
+      location = "self:/Users/Mikhail/Documents/XCodeProjects/paddies-objc/AirHockey.xcodeproj">
    </FileRef>
 </Workspace>

@@ -25,9 +25,13 @@
     SystemSoundID sounds[3];
 }
 
-@property (weak, nonatomic) IBOutlet UIView *viewPaddle1;
-@property (weak, nonatomic) IBOutlet UIView *viewPaddle2;
-@property (weak, nonatomic) IBOutlet UIView *viewPuck;
+@property (weak, nonatomic) IBOutlet UIImageView *imgViewPuck;
+@property (weak, nonatomic) IBOutlet UIImageView *imgViewPaddle1;
+@property (weak, nonatomic) IBOutlet UIImageView *imgViewPaddle2;
+
+//@property (weak, nonatomic) IBOutlet UIView *viewPaddle1;
+//@property (weak, nonatomic) IBOutlet UIView *viewPaddle2;
+//@property (weak, nonatomic) IBOutlet UIView *viewPuck;
 @property (weak, nonatomic) IBOutlet UILabel *viewScore1;
 @property (weak, nonatomic) IBOutlet UILabel *viewScore2;
 
@@ -88,11 +92,11 @@
         // перемещаем одну из ракеток, в зависимости от того, в какой части экрана произошло касание
         if (touch1 == nil && touchPoint.y < self.view.bounds.size.height/2) {
             touch1 = touch;
-            _viewPaddle1.center = CGPointMake(touchPoint.x, _viewPaddle1.center.y);
+            _imgViewPaddle1.center = CGPointMake(touchPoint.x, _imgViewPaddle1.center.y);
             
         } else if (touch2 == nil && touchPoint.y >= self.view.bounds.size.height/2) {
             touch2 = touch;
-            _viewPaddle2.center = CGPointMake(touchPoint.x, _viewPaddle2.center.y);
+            _imgViewPaddle2.center = CGPointMake(touchPoint.x, _imgViewPaddle2.center.y);
         }
     }
 }
@@ -105,9 +109,9 @@
         
         // если ракетке присвоено касание, то перемещаем ракетку
         if (touch == touch1) {
-            _viewPaddle1.center = CGPointMake(touchPoint.x, _viewPaddle1.center.y);
+            _imgViewPaddle1.center = CGPointMake(touchPoint.x, _imgViewPaddle1.center.y);
         } else if (touch == touch2) {
-            _viewPaddle2.center = CGPointMake(touchPoint.x, _viewPaddle2.center.y);
+            _imgViewPaddle2.center = CGPointMake(touchPoint.x, _imgViewPaddle2.center.y);
         }
     }
 }
@@ -147,7 +151,7 @@
     }
     
     // перемещаем точку в случайное положение в области центра
-    _viewPuck.center = CGPointMake(15 + arc4random() % ((int)self.view.bounds.size.width - 30), self.view.bounds.size.height/2);
+    _imgViewPuck.center = CGPointMake(15 + arc4random() % ((int)self.view.bounds.size.width - 30), self.view.bounds.size.height/2);
     
     // сбрасываем скорость
     speed = 2;
@@ -156,7 +160,7 @@
 - (void)animate {
     // перемещаем мячик в новую позицию в зависимости от направления
     // и скорости движения
-    _viewPuck.center = CGPointMake(_viewPuck.center.x + dx*speed, _viewPuck.center.y + dy*speed);
+    _imgViewPuck.center = CGPointMake(_imgViewPuck.center.x + dx*speed, _imgViewPuck.center.y + dy*speed);
     
     // проверяем, не ударился ли мяч о левую или правую стенку
     if ([self checkPuckCollision:CGRectMake(-10.0, 0, 20.0, self.view.bounds.size.height) dirX:fabs(dx) dirY:0]) {
@@ -169,13 +173,13 @@
     }
 
     // проверяем, не ударился ли мяч о ракетку одного из игроков
-    if ([self checkPuckCollision:_viewPaddle1.frame dirX:(_viewPuck.center.x-_viewPaddle1.center.x)/32.0 dirY:1]) {
+    if ([self checkPuckCollision:_imgViewPaddle1.frame dirX:(_imgViewPuck.center.x-_imgViewPaddle1.center.x)/32.0 dirY:1]) {
         // воспроизводим звук соударения с ракеткой
         // и увеличиваем скорость мячика
         [self increaseSpeed];
         [self playSound:SOUND_PADDLE];
     }
-    if ([self checkPuckCollision:_viewPaddle2.frame dirX:(_viewPuck.center.x-_viewPaddle2.center.x)/32.0 dirY:-1]) {
+    if ([self checkPuckCollision:_imgViewPaddle2.frame dirX:(_imgViewPuck.center.x-_imgViewPaddle2.center.x)/32.0 dirY:-1]) {
         // воспроизводим звук соударения с ракеткой
         // и увеличиваем скорость мячика
         [self increaseSpeed];
@@ -199,7 +203,7 @@
                                                 repeats:YES];
     }
     // оображаем мячик
-    _viewPuck.hidden = NO;
+    _imgViewPuck.hidden = NO;
 }
 
 - (void)stop {
@@ -209,14 +213,14 @@
     }
     
     // скрываем мячик
-    _viewPuck.hidden = YES;
+    _imgViewPuck.hidden = YES;
 }
 
 
 
 - (BOOL)checkPuckCollision:(CGRect)rect dirX:(float)x dirY:(float)y {
     // проверяем, пересекается ли мячик с переданным прямоугольником
-    if  (CGRectIntersectsRect(_viewPuck.frame, rect)) {
+    if  (CGRectIntersectsRect(_imgViewPuck.frame, rect)) {
         // изменяем направление мячика
         if (x != 0) {
             dx = x;
@@ -231,13 +235,13 @@
 
 - (BOOL)checkGoal {
     // Проверяем, не вышел ли мяч за пределы поля, и если так - сбрасываем игру
-    if (_viewPuck.center.y < 0 || _viewPuck.center.y >= self.view.bounds.size.height) {
+    if (_imgViewPuck.center.y < 0 || _imgViewPuck.center.y >= self.view.bounds.size.height) {
         // получаем целочисленное значение из содержимого подписи со счетом
         int s1 = _viewScore1.text.intValue;
         int s2 = _viewScore2.text.intValue;
         
         // даем очко тому игроку,который его заработал
-        if (_viewPuck.center.y < 0) {
+        if (_imgViewPuck.center.y < 0) {
             ++s2;
         } else {
             ++s1;
