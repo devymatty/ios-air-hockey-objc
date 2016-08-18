@@ -10,6 +10,14 @@
 
 #define MAX_SCORE 3
 
+#define MAX_SPEED 15
+
+struct CGRect gPlayerBox[] = {
+    // x, y, ширина, высота
+    {40, 40, 320-80, 240-40-32}, // рамка первого игрока
+    {40, 240+33, 320-80, 240-40-32} // раска второго игрока
+};
+
 @interface ViewController () {
     UITouch *touch1;
     UITouch *touch2;
@@ -46,6 +54,14 @@
     [super viewDidLoad];
     
     [self initSounds];
+    
+    // отладочный код для отображения рамки, в которой может действовать игрок
+    for (int i = 0; i < 2; i++) {
+        UIView *view = [[UIView alloc]initWithFrame:gPlayerBox[i]];
+        view.backgroundColor = [UIColor yellowColor];
+        view.alpha = 0.25;
+        [self.view addSubview:view];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {

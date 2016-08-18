@@ -18,7 +18,7 @@
     UITouch *touch; // касание присвоенное данной клюшке
 }
 
-@property (assign) UITouch *touch;
+//@property (assign) UITouch *touch;
 @property (readonly) float speed;
 @property (assign) float maxSpeed;
 
