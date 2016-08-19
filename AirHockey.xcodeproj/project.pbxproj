@@ -19,6 +19,7 @@
 		74DA97601D65C15E00AE01C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74DA97551D65C15E00AE01C4 /* main.m */; };
 		74DA97611D65C15E00AE01C4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74DA97571D65C15E00AE01C4 /* ViewController.m */; };
 		74DA97641D65D57000AE01C4 /* Paddle.m in Sources */ = {isa = PBXBuildFile; fileRef = 74DA97631D65D57000AE01C4 /* Paddle.m */; };
+		74DA976D1D6725F600AE01C4 /* Puck.m in Sources */ = {isa = PBXBuildFile; fileRef = 74DA976C1D6725F600AE01C4 /* Puck.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,8 @@
 		74DA97571D65C15E00AE01C4 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		74DA97621D65D57000AE01C4 /* Paddle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Paddle.h; sourceTree = "<group>"; };
 		74DA97631D65D57000AE01C4 /* Paddle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Paddle.m; sourceTree = "<group>"; };
+		74DA976B1D6725F600AE01C4 /* Puck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Puck.h; sourceTree = "<group>"; };
+		74DA976C1D6725F600AE01C4 /* Puck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Puck.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +87,8 @@
 				74DA97571D65C15E00AE01C4 /* ViewController.m */,
 				74DA97621D65D57000AE01C4 /* Paddle.h */,
 				74DA97631D65D57000AE01C4 /* Paddle.m */,
+				74DA976B1D6725F600AE01C4 /* Puck.h */,
+				74DA976C1D6725F600AE01C4 /* Puck.m */,
 			);
 			path = AirHockey;
 			sourceTree = "<group>";
@@ -172,6 +177,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74DA976D1D6725F600AE01C4 /* Puck.m in Sources */,
 				74DA97611D65C15E00AE01C4 /* ViewController.m in Sources */,
 				74DA97641D65D57000AE01C4 /* Paddle.m in Sources */,
 				74DA97601D65C15E00AE01C4 /* main.m in Sources */,

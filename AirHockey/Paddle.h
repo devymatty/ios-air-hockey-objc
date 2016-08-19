@@ -15,10 +15,10 @@
     CGPoint pos; // позиция, в которую передвинеться клюшка
     float maxSpeed; // максимальная скорость
     float speed; // актуальная скорость
-    UITouch *touch; // касание присвоенное данной клюшке
+//    UITouch *touch; // касание присвоенное данной клюшке
 }
 
-//@property (assign) UITouch *touch;
+@property (assign) UITouch *touch;
 @property (readonly) float speed;
 @property (assign) float maxSpeed;
 

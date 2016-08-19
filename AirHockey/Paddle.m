@@ -10,7 +10,7 @@
 
 @implementation Paddle
 
-//@synthesize touch;
+@synthesize touch;
 @synthesize speed;
 @synthesize maxSpeed;
 

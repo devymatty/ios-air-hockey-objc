@@ -7,39 +7,34 @@
 //
 
 #import "ViewController.h"
+#import <AudioToolbox/AudioToolbox.h>
+#import "Paddle.h"
+#import "Puck.h"
 
 #define MAX_SCORE 3
-
 #define MAX_SPEED 15
 
-struct CGRect gPlayerBox[] = {
-    // x, y, ширина, высота
-    {40, 40, 320-80, 240-40-32}, // рамка первого игрока
-    {40, 240+33, 320-80, 240-40-32} // раска второго игрока
-};
-
 @interface ViewController () {
-    UITouch *touch1;
-    UITouch *touch2;
-    
-    float dx;
-    float dy;
-    float speed;
+
+    // код вспомогательных контроллеров клюшек
+    Paddle *paddle1;
+    Paddle *paddle2;
+    Puck *puck;
     
     NSTimer *timer;
     
     UIAlertController *alertCntrllr;
     
     SystemSoundID sounds[3];
+    
+    CGRect gPlayerBox[2];
+    CGRect gPuckBox;
+    CGRect gGoalBox[2];
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgViewPuck;
 @property (weak, nonatomic) IBOutlet UIImageView *imgViewPaddle1;
 @property (weak, nonatomic) IBOutlet UIImageView *imgViewPaddle2;
-
-//@property (weak, nonatomic) IBOutlet UIView *viewPaddle1;
-//@property (weak, nonatomic) IBOutlet UIView *viewPaddle2;
-//@property (weak, nonatomic) IBOutlet UIView *viewPuck;
 @property (weak, nonatomic) IBOutlet UILabel *viewScore1;
 @property (weak, nonatomic) IBOutlet UILabel *viewScore2;
 
@@ -55,20 +50,57 @@ struct CGRect gPlayerBox[] = {
     
     [self initSounds];
     
-    // отладочный код для отображения рамки, в которой может действовать игрок
-    for (int i = 0; i < 2; i++) {
-        UIView *view = [[UIView alloc]initWithFrame:gPlayerBox[i]];
-        view.backgroundColor = [UIColor yellowColor];
-        view.alpha = 0.25;
-        [self.view addSubview:view];
-    }
+    gPlayerBox[0] = CGRectMake(40, 40, self.view.bounds.size.width-80, self.view.bounds.size.height/2-40-32);
+    gPlayerBox[1] = CGRectMake(40, self.view.bounds.size.height/2 + 32, self.view.bounds.size.width-80, self.view.bounds.size.height/2-40-32);
+    
+//    // отладочный код для отображения рамки, в которой может действовать игрок
+//    for (int i = 0; i < 2; i++) {
+//        
+//        UIView *view;
+//        if (i==0) {
+//            view = [[UIView alloc]initWithFrame:gPlayerBox[0]];
+//        } else {
+//            view = [[UIView alloc]initWithFrame:gPlayerBox[1]];
+//        }
+//        view.backgroundColor = [UIColor yellowColor];
+//        view.alpha = 0.25;
+//        [self.view addSubview:view];
+//    }
+    
+    // создаем вспомогательные контроллеры клюшек
+    paddle1 = [[Paddle alloc]initWithView:_imgViewPaddle1
+                                 boundary:gPlayerBox[0]
+                                 maxSpeed:MAX_SPEED];
+    paddle2 = [[Paddle alloc]initWithView:_imgViewPaddle2
+                                 boundary:gPlayerBox[1]
+                                 maxSpeed:MAX_SPEED];
+    
+    gPuckBox = CGRectMake(28, 28, self.view.bounds.size.width - 56, self.view.bounds.size.height - 56);
+    
+    gGoalBox[0] = CGRectMake(100, -20, self.view.bounds.size.width - 200, 49); // рамка, дающая очко первому игроку
+    gGoalBox[1] = CGRectMake(102, self.view.bounds.size.height - 29, self.view.bounds.size.width - 200, 49); // рамка, дающая очко второму игроку
+    
+//    // отладочный код для отображения ворот
+//    for (int i = 0; i < 2;  i++) {
+//        UIView *view = [[UIView alloc] initWithFrame:gGoalBox[i]];
+//        view.backgroundColor = [UIColor greenColor];
+//        view.alpha = 0.25;
+//        [self.view addSubview:view];
+//    }
+//    
+//    // отладочный код для отображения основного поля для шайбы
+//    UIView *view = [[UIView alloc]initWithFrame:gPuckBox];
+//    view.backgroundColor = [UIColor cyanColor];
+//    view.alpha = 0.25;
+//    [self.view addSubview:view];
+    
+    puck = [[Puck alloc]initWithPuck:_imgViewPuck boundary:gPuckBox goal1:gGoalBox[0] goal2:gGoalBox[1] maxSpeed:MAX_SPEED];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self newGame];
 }
-
 
 #define SOUND_WALL 0
 #define SOUND_PADDLE 1
@@ -102,17 +134,17 @@ struct CGRect gPlayerBox[] = {
         // получаем точку касания в пределах вида
         CGPoint touchPoint = [touch locationInView:self.view];
         
-        // проверяем, в какой половине экрана произошло касание,
-        // и присваиваем его той или иной ракетке, если оно еще не присвоено
-        
-        // перемещаем одну из ракеток, в зависимости от того, в какой части экрана произошло касание
-        if (touch1 == nil && touchPoint.y < self.view.bounds.size.height/2) {
-            touch1 = touch;
-            _imgViewPaddle1.center = CGPointMake(touchPoint.x, _imgViewPaddle1.center.y);
+        // если клюшка еще не присвоена конкретному касанию, то определяем, на какую половину экрана приходится касание
+        // и в соответствии с этим присваиваем касание соответствующей клюшке
+        if (paddle1.touch == nil && touchPoint.y < self.view.bounds.size.height/2) {
+            touchPoint.y += 48;
+            paddle1.touch = touch;
+            [paddle1 move:touchPoint];
             
-        } else if (touch2 == nil && touchPoint.y >= self.view.bounds.size.height/2) {
-            touch2 = touch;
-            _imgViewPaddle2.center = CGPointMake(touchPoint.x, _imgViewPaddle2.center.y);
+        } else if (paddle2.touch == nil && touchPoint.y >= self.view.bounds.size.height/2) {
+            touchPoint.y -= 24;
+            paddle2.touch = touch;
+            [paddle2 move:touchPoint];
         }
     }
 }
@@ -123,11 +155,15 @@ struct CGRect gPlayerBox[] = {
         //  получаем точку касания внутри вида
         CGPoint touchPoint = [touch locationInView:self.view];
         
-        // если ракетке присвоено касание, то перемещаем ракетку
-        if (touch == touch1) {
-            _imgViewPaddle1.center = CGPointMake(touchPoint.x, _imgViewPaddle1.center.y);
-        } else if (touch == touch2) {
-            _imgViewPaddle2.center = CGPointMake(touchPoint.x, _imgViewPaddle2.center.y);
+        // если клюшка еще не присвоена конкретному касанию, то определяем, на какую половину экрана приходиться касание
+        // и исходя из этого, присваиваем касание соответствующей клюшке
+        if (paddle1.touch == touch) {
+            touchPoint.y += 48;
+            [paddle1 move:touchPoint];
+            
+        } else if (paddle2.touch == touch) {
+            touchPoint.y -= 24;
+            [paddle2 move:touchPoint];
         }
     }
 }
@@ -135,10 +171,10 @@ struct CGRect gPlayerBox[] = {
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     // итерируем через все объекты касания
     for (UITouch *touch in touches) {
-        if (touch == touch1) {
-            touch1 = nil;
-        } else if (touch == touch2) {
-            touch2 = nil;
+        if (paddle1.touch == touch) {
+            paddle1.touch = nil;
+        } else if (paddle2.touch == touch) {
+            paddle2.touch = nil;
         }
     }
 }
@@ -148,65 +184,34 @@ struct CGRect gPlayerBox[] = {
 }
 
 - (void)reset {
-    // задаем направление мячика, чтобы он летеле либо влево, либо вправо
-    if ((arc4random() % 2) == 0) {
-        dx = -1;
-    } else {
-        dx = 1;
-    }
+    // сбрасываем значения клюшек
+    [paddle1 reset];
+    [paddle2 reset];
+    [puck reset];
     
-    // задаем для dy обратное значение, если ее предыдущее значениее было ненулевым. В таком случае мячик полетит к игроку, только что набравшему очко. В противном случае пускаем мячик в случайном направлении.
-    if (dy != 0) {
-        dy = -dy;
-    } else {
-        if ((arc4random() % 2) == 0) {
-            dy = -1;
-        } else {
-            dy = 1;
-        }
-    }
-    
-    // перемещаем точку в случайное положение в области центра
-    _imgViewPuck.center = CGPointMake(15 + arc4random() % ((int)self.view.bounds.size.width - 30), self.view.bounds.size.height/2);
-    
-    // сбрасываем скорость
-    speed = 2;
 }
 
 - (void)animate {
-    // перемещаем мячик в новую позицию в зависимости от направления
-    // и скорости движения
-    _imgViewPuck.center = CGPointMake(_imgViewPuck.center.x + dx*speed, _imgViewPuck.center.y + dy*speed);
+    // перемещаем клюшку
+    [paddle1 animate];
+    [paddle2 animate];
     
-    // проверяем, не ударился ли мяч о левую или правую стенку
-    if ([self checkPuckCollision:CGRectMake(-10.0, 0, 20.0, self.view.bounds.size.height) dirX:fabs(dx) dirY:0]) {
-        // воспроизводим звук удара о стену
-        [self playSound:SOUND_WALL];
-    }
-    if ([self checkPuckCollision:CGRectMake(self.view.bounds.size.width-10.0, 0, 20.0, self.view.bounds.size.height) dirX:-fabs(dx) dirY:0]) {
-        // воспроизводим звук удара о стену
-        [self playSound:SOUND_WALL];
-    }
-
-    // проверяем, не ударился ли мяч о ракетку одного из игроков
-    if ([self checkPuckCollision:_imgViewPaddle1.frame dirX:(_imgViewPuck.center.x-_imgViewPaddle1.center.x)/32.0 dirY:1]) {
-        // воспроизводим звук соударения с ракеткой
-        // и увеличиваем скорость мячика
-        [self increaseSpeed];
-        [self playSound:SOUND_PADDLE];
-    }
-    if ([self checkPuckCollision:_imgViewPaddle2.frame dirX:(_imgViewPuck.center.x-_imgViewPaddle2.center.x)/32.0 dirY:-1]) {
-        // воспроизводим звук соударения с ракеткой
-        // и увеличиваем скорость мячика
-        [self increaseSpeed];
+    // обработка соударения клюшек, возвращающих YES при возникновении соударения
+    if ([puck handleCollision:paddle1] || [puck handleCollision:paddle2]) {
+        // звук удара шайбы
         [self playSound:SOUND_PADDLE];
     }
     
-    // проверяем не забит ли мяч
+    // анимируем шайбу, возвращая YES, если произошло столкновение со стенкой
+    if ([puck animate]) {
+        [self playSound:SOUND_WALL];
+    }
+    
+    // проверяем был ли забит гол
     if ([self checkGoal]) {
-        // воспроизводим звук начисления очка
         [self playSound:SOUND_SCORE];
     }
+
 }
 
 - (void)start {
@@ -232,32 +237,17 @@ struct CGRect gPlayerBox[] = {
     _imgViewPuck.hidden = YES;
 }
 
-
-
-- (BOOL)checkPuckCollision:(CGRect)rect dirX:(float)x dirY:(float)y {
-    // проверяем, пересекается ли мячик с переданным прямоугольником
-    if  (CGRectIntersectsRect(_imgViewPuck.frame, rect)) {
-        // изменяем направление мячика
-        if (x != 0) {
-            dx = x;
-        }
-        if (y != 0) {
-            dy = y;
-        }
-        return YES;
-    }
-    return NO;
-}
-
 - (BOOL)checkGoal {
-    // Проверяем, не вышел ли мяч за пределы поля, и если так - сбрасываем игру
-    if (_imgViewPuck.center.y < 0 || _imgViewPuck.center.y >= self.view.bounds.size.height) {
+    // Проверяем, не вышла ли шайба за границы поля, и если так - сбрасываем игру
+    
+    if (puck.winner != 0) {
+    
         // получаем целочисленное значение из содержимого подписи со счетом
         int s1 = _viewScore1.text.intValue;
         int s2 = _viewScore2.text.intValue;
         
         // даем очко тому игроку,который его заработал
-        if (_imgViewPuck.center.y < 0) {
+        if (puck.winner == 2) {
             ++s2;
         } else {
             ++s1;
@@ -267,7 +257,7 @@ struct CGRect gPlayerBox[] = {
         _viewScore1.text = [NSString stringWithFormat:@"%u", s1];
         _viewScore2.text = [NSString stringWithFormat:@"%u", s2];
         
-        // проверяем, не определился ли победитель
+        // проверяем, кто победил в раудне
         if ([self gameOver] == 1) {
             // называем победителя
             [self displayMessage:@"Player 1 has won!"];
@@ -279,11 +269,11 @@ struct CGRect gPlayerBox[] = {
             [self reset];
         }
         
-        // возвращаем TRUE, если мяч был забит
+        // возвращаем TRUE, если забит гол
         return YES;
     }
     
-    // мяч не забит
+    // гол не забит
     return NO;
 }
 
@@ -337,13 +327,6 @@ struct CGRect gPlayerBox[] = {
         return 2;
     }
     return 0;
-}
-
-- (void)increaseSpeed {
-    speed += 0.5;
-    if (speed > 10) {
-        speed = 10;
-    }
 }
 
 - (void)pause {
