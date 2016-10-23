@@ -10,5 +10,10 @@
 
 @interface ViewController : UIViewController
 
+@property (nonatomic, assign) NSInteger computer;
+
+- (void)resume;
+- (void)pause;
+
 @end
 

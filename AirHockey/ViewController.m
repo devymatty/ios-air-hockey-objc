@@ -10,9 +10,19 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "Paddle.h"
 #import "Puck.h"
+#import "AppDelegate.h"
 
 #define MAX_SCORE 3
 #define MAX_SPEED 15
+
+typedef enum {
+    AI_START = 0,
+    AI_WAIT,
+    AI_BORED,
+    AI_DEFENSE,
+    AI_OFFENSE,
+    AI_OFFENSE2
+} AIState;
 
 @interface ViewController () {
 
@@ -30,6 +40,8 @@
     CGRect gPlayerBox[2];
     CGRect gPuckBox;
     CGRect gGoalBox[2];
+    
+    AIState state;
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgViewPuck;
@@ -95,6 +107,7 @@
 //    [self.view addSubview:view];
     
     puck = [[Puck alloc]initWithPuck:_imgViewPuck boundary:gPuckBox goal1:gGoalBox[0] goal2:gGoalBox[1] maxSpeed:MAX_SPEED];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -136,7 +149,7 @@
         
         // если клюшка еще не присвоена конкретному касанию, то определяем, на какую половину экрана приходится касание
         // и в соответствии с этим присваиваем касание соответствующей клюшке
-        if (paddle1.touch == nil && touchPoint.y < self.view.bounds.size.height/2) {
+        if (paddle1.touch == nil && touchPoint.y < self.view.bounds.size.height/2 && _computer == 0) {
             touchPoint.y += 48;
             paddle1.touch = touch;
             [paddle1 move:touchPoint];
@@ -183,7 +196,93 @@
     [self touchesEnded:touches withEvent:event];
 }
 
+
+- (void)computerAI {
+    if (state == AI_START) {
+        if (paddle2.speed > 0 || (arc4random() % 100) == 1) {
+            state = AI_WAIT;
+        }
+        
+    } else if (state == AI_WAIT) {
+    
+        // дожидаемся, пока клюшка остановится
+        if (paddle1.speed == 0) {
+            
+            // фикс исключающий ситуацию в котором компьютер блокирует шайбу в углу
+            if ([paddle1 intersects:_imgViewPuck.frame]) {
+                // переходим в состоянии бездействия в результате клюшка перемещается в случайную позицию
+                state = AI_BORED;
+                return;
+            }
+            
+            paddle1.maxSpeed = MAX_SPEED;
+            
+            // выбираем случайное число в диапазоне между 0 и 9
+            int r = arc4random() % 10;
+            
+            // если выбрано число 1
+            // то происходит переход в новое состояние
+            if (r == 1) {
+                // если шайба находиться на нашей стороне и не движется слишком быстро
+                // переходим в нападение
+                // если шайба перемещается вверх с достаточной скоростью
+                // переходим состояние защиты
+                // в ином случае переходим в состояние бездействия
+                
+                if (puck.center.y <= self.view.bounds.size.height/2 && puck.speed < 1) {
+                    state = AI_OFFENSE;
+                
+                } else if (puck.speed >= 1 && puck.dy < 0) {
+                    state = AI_DEFENSE;
+                
+                } else {
+                    state = AI_BORED;
+                }
+            }
+        }
+    } else if (state == AI_OFFENSE) {
+        // выбираем новую позицию по оси X между -64 и +64 от центра шайбы
+        float x = puck.center.x - 64 + (arc4random() % 129);
+        float y = puck.center.y - 64 - (arc4random() % 64);
+        [paddle1 move:CGPointMake(x, y)];
+
+        state = AI_OFFENSE2;
+        
+    } else if (state == AI_OFFENSE2) {
+        if (paddle1.speed == 0) {
+            // бьем
+            [paddle1 move:puck.center];
+            state = AI_WAIT;
+        }
+        
+    } else if (state == AI_DEFENSE) {
+        // выводим в позицию х, занимаемую шайбой,
+        // и делим пополам расстояние, между ней и воротами
+        [paddle1 move:CGPointMake(puck.center.x, puck.center.y/2)];
+        
+        if (puck.speed < 1) {
+            state = AI_WAIT;
+        }
+        paddle1.maxSpeed = MAX_SPEED / 3;
+        
+        // компьютер был в состоянии бездействия, а теперь переводит клюшку в новую позицию
+    } else if (state == AI_BORED) {
+        if (paddle1.speed == 0) {
+            // перемещаем клюшку paddle1 в случайную позицию в пределах поля
+            // игрока player1
+            float x = gPlayerBox[0].origin.x + arc4random() % (int)gPlayerBox[0].size.width;
+            
+            float y = gPlayerBox[0].origin.y + arc4random() % (int)gPlayerBox[0].size.height;
+            [paddle1 move:CGPointMake(x, y)];
+            state = AI_WAIT;
+        }
+    }
+}
+
+
 - (void)reset {
+    // возвращаем компьютерного игрока в состояние ожидания
+    state = AI_WAIT;
     // сбрасываем значения клюшек
     [paddle1 reset];
     [paddle2 reset];
@@ -192,6 +291,11 @@
 }
 
 - (void)animate {
+    // проверяем наличие компьютерного игрока
+    if (_computer) {
+        [self computerAI];
+    }
+    
     // перемещаем клюшку
     [paddle1 animate];
     [paddle2 animate];
@@ -295,7 +399,8 @@
         alertCntrllr = nil;
         
         if ([self gameOver]) {
-            [self newGame];
+            [(AppDelegate *)[UIApplication sharedApplication].delegate showTitle];
+            [self newGame];//
             return;
         }
         

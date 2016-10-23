@@ -12,6 +12,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+- (void)showTitle;
+- (void)playGame:(NSInteger)computer;
 
 @end
 
