@@ -199,7 +199,7 @@ typedef enum {
 
 - (void)computerAI {
     if (state == AI_START) {
-        if (paddle2.speed > 0 || (arc4random() % 100) == 1) {
+        if (paddle2.speed > 0 || (arc4random() % (100/_computer)) == 1) {
             state = AI_WAIT;
         }
         
@@ -218,7 +218,7 @@ typedef enum {
             paddle1.maxSpeed = MAX_SPEED;
             
             // выбираем случайное число в диапазоне между 0 и 9
-            int r = arc4random() % 10;
+            int r = arc4random() % ((4 - _computer)*4);
             
             // если выбрано число 1
             // то происходит переход в новое состояние
@@ -229,9 +229,13 @@ typedef enum {
                 // переходим состояние защиты
                 // в ином случае переходим в состояние бездействия
                 
-                if (puck.center.y <= self.view.bounds.size.height/2 && puck.speed < 1) {
-                    state = AI_OFFENSE;
-                
+                if (puck.center.y <= self.view.bounds.size.height/2 && puck.speed < _computer) {
+                    if (_computer == 1) {
+                        state = AI_OFFENSE2;
+                    } else {
+                        state = AI_OFFENSE;
+                    }
+                    
                 } else if (puck.speed >= 1 && puck.dy < 0) {
                     state = AI_DEFENSE;
                 
@@ -241,6 +245,10 @@ typedef enum {
             }
         }
     } else if (state == AI_OFFENSE) {
+        if (_computer < 3) {
+            paddle1.maxSpeed = MAX_SPEED / 2;
+        }
+        
         // выбираем новую позицию по оси X между -64 и +64 от центра шайбы
         float x = puck.center.x - 64 + (arc4random() % 129);
         float y = puck.center.y - 64 - (arc4random() % 64);
@@ -249,30 +257,52 @@ typedef enum {
         state = AI_OFFENSE2;
         
     } else if (state == AI_OFFENSE2) {
-        if (paddle1.speed == 0) {
-            // бьем
-            [paddle1 move:puck.center];
-            state = AI_WAIT;
+        if (_computer == 1) {
+            paddle1.maxSpeed = MAX_SPEED / 2;
+        } else if (_computer == 2) {
+            paddle1.maxSpeed = MAX_SPEED * 3/4;
         }
-        
+        // бьем
+        [paddle1 move:puck.center];
+        state = AI_WAIT;
+
     } else if (state == AI_DEFENSE) {
         // выводим в позицию х, занимаемую шайбой,
         // и делим пополам расстояние, между ней и воротами
-        [paddle1 move:CGPointMake(puck.center.x, puck.center.y/2)];
+        float offset = ((puck.center.x - self.view.bounds.size.height/2) / self.view.bounds.size.height/2) * _imgViewPuck.bounds.size.width;
         
-        if (puck.speed < 1) {
+        [paddle1 move:CGPointMake(puck.center.x - offset, puck.center.y/2)];
+        
+        if (puck.speed < 1 || puck.dy > 0) {
             state = AI_WAIT;
         }
-        paddle1.maxSpeed = MAX_SPEED / 3;
+        if (_computer == 1) {
+            paddle1.maxSpeed = MAX_SPEED / 3;
+        
+        } else if (_computer == 2) {
+            paddle1.maxSpeed = MAX_SPEED * 2/5;
+        
+        } else if (_computer == 3) {
+            paddle1.maxSpeed = MAX_SPEED * 2;
+        }
         
         // компьютер был в состоянии бездействия, а теперь переводит клюшку в новую позицию
     } else if (state == AI_BORED) {
         if (paddle1.speed == 0) {
+            
+            // изменяем скорость клюшки в зависимости от уровня сложности
+            paddle1.maxSpeed = 3 + _computer;
+            
+            // делаем отступ прямоугольника, в котором выбирается позиция,
+            // для среднего (20) или тяжелого уровня (40)
+            int inset = (int)(_computer - 1) * 20;
+
+            
             // перемещаем клюшку paddle1 в случайную позицию в пределах поля
             // игрока player1
-            float x = gPlayerBox[0].origin.x + arc4random() % (int)gPlayerBox[0].size.width;
+            float x = gPlayerBox[0].origin.x + arc4random() % (int)(gPlayerBox[0].size.width - inset *2);
             
-            float y = gPlayerBox[0].origin.y + arc4random() % (int)gPlayerBox[0].size.height;
+            float y = gPlayerBox[0].origin.y + arc4random() % (int)(gPlayerBox[0].size.height - inset);
             [paddle1 move:CGPointMake(x, y)];
             state = AI_WAIT;
         }
